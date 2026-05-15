@@ -26,6 +26,7 @@ function nextSrc(url: string): string | null {
 function PhotoBackground({ url, presenter }: { url: string | null; presenter: string }) {
   const [src, setSrc] = useState(url);
   const [failed, setFailed] = useState(false);
+  const isLocalPhoto = src?.startsWith("/ma-photos/") ?? false;
   const initials = presenter.split(" ").map((w) => w[0]).slice(0, 2).join("");
 
   if (!src || failed) {
@@ -47,6 +48,7 @@ function PhotoBackground({ url, presenter }: { url: string | null; presenter: st
       alt={presenter}
       fill
       quality={100}
+      unoptimized={isLocalPhoto}
       sizes="50vw"
       className="object-cover object-top"
       onError={() => {
@@ -123,7 +125,8 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
 
         {/* Rotation label */}
         <motion.p
-          className="font-mono-tech text-garena-red text-sm tracking-[0.25em] uppercase mb-4"
+          className="font-mono-tech text-garena-red tracking-[0.25em] uppercase mb-5"
+          style={{ fontSize: "1.5rem" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0, ease: "easeOut" }}
@@ -133,7 +136,8 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
 
         {/* Name */}
         <motion.h2
-          className="font-display font-bold text-white text-5xl md:text-6xl leading-tight mb-4"
+          className="font-display font-bold text-white leading-tight mb-4"
+          style={{ fontSize: "5.5rem" }}
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
@@ -156,7 +160,8 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
 
         {/* Department / rotation title */}
         <motion.p
-          className="font-mono-tech text-white/60 text-xl leading-relaxed max-w-sm"
+          className="font-mono-tech text-white/60 leading-relaxed max-w-lg"
+          style={{ fontSize: "2rem" }}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.35, ease: "easeOut" }}
@@ -167,7 +172,7 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
         {/* Tag strip */}
         {tags.length > 0 && (
           <motion.div
-            className="flex flex-wrap gap-2 mt-4"
+            className="flex flex-wrap gap-3 mt-5"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45, ease: "easeOut" }}
@@ -177,8 +182,8 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
                 key={tag}
                 className="font-mono-tech"
                 style={{
-                  fontSize: "0.72rem",
-                  padding: "3px 10px",
+                  fontSize: "1rem",
+                  padding: "5px 14px",
                   borderRadius: "999px",
                   background: "rgba(255,255,255,0.06)",
                   border: "1px solid rgba(255,255,255,0.12)",
@@ -193,7 +198,7 @@ export function PresentationSlide({ presenter, rotationTitle, rotationNumber, ma
 
         {/* Bottom tag */}
         <div className="absolute bottom-10 left-16">
-          <span className="font-mono-tech text-sm text-white/30 border border-white/10 rounded-full px-4 py-1.5">
+          <span className="font-mono-tech text-white/30 border border-white/10 rounded-full px-5 py-2" style={{ fontSize: "1.1rem" }}>
             {rotationNumber} Rotation · {rotationTitle}
           </span>
         </div>

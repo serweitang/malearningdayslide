@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { AuroraBeams } from "@/components/ui/AuroraBeams";
 
 export function Slide1_Title() {
   return (
@@ -15,6 +15,8 @@ export function Slide1_Title() {
           backgroundSize: "40px 40px",
         }}
       />
+
+      <AuroraBeams />
 
       {/* Animated geometric lines */}
       <svg
@@ -44,17 +46,6 @@ export function Slide1_Title() {
       {/* Radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(225,37,27,0.08)_0%,_transparent_70%)]" />
 
-      {/* Logo top-left */}
-      <div className="absolute top-6 left-8 bg-black rounded">
-        <Image
-          src="/Horizontal_Asset-Black.png"
-          alt="Garena"
-          width={180}
-          height={50}
-          style={{ objectFit: "contain" }}
-        />
-      </div>
-
       {/* Main text */}
       <motion.div
         className="relative z-10 text-center px-8"
@@ -63,13 +54,14 @@ export function Slide1_Title() {
         transition={{ duration: 0.8, delay: 0.4 }}
       >
         <motion.p
-          className="text-garena-red font-display text-lg tracking-[0.3em] uppercase mb-4"
+          className="text-garena-red font-display tracking-[0.3em] uppercase mb-6"
+          style={{ fontSize: "2rem" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
         >
           Garena · 2026
         </motion.p>
-        <h1 className="font-display font-bold text-white text-5xl md:text-7xl leading-tight tracking-tight">
+        <h1 className="font-display font-bold text-white leading-tight tracking-tight" style={{ fontSize: "7.5rem" }}>
           Mid Year<br />
           <span className="text-garena-red">MA</span> Learning Day
         </h1>

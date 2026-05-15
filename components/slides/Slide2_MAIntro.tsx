@@ -34,8 +34,18 @@ function nextSrc(url: string): string | null {
 function MAPhoto({ url, name }: { url: string | null; name: string }) {
   const [src, setSrc] = useState(url);
   const [failed, setFailed] = useState(false);
+  const isYanWei = name.toLowerCase().includes("yan wei");
+  const isJoan = name.toLowerCase().includes("joan");
+  const isLocalPhoto = src?.startsWith("/ma-photos/") ?? false;
 
   if (!src || failed) return <AvatarPlaceholder name={name} />;
+
+  const photoStyle: React.CSSProperties = isYanWei
+    ? { objectPosition: "50% 42%" }
+    : isJoan
+    ? { objectPosition: "60% 45%", transform: "scale(1.9)", transformOrigin: "60% 45%" }
+    : undefined as unknown as React.CSSProperties;
+
   return (
     <Image
       src={src}
@@ -43,7 +53,9 @@ function MAPhoto({ url, name }: { url: string | null; name: string }) {
       width={160}
       height={160}
       quality={100}
-      className="w-full h-full object-cover object-top"
+      unoptimized={isLocalPhoto}
+      className={`w-full h-full object-cover ${isYanWei || isJoan ? "" : "object-top"}`}
+      style={photoStyle}
       onError={() => {
         const alt = nextSrc(src);
         if (alt) { setSrc(alt); } else { setFailed(true); }
@@ -196,11 +208,11 @@ export function Slide2_MAIntro() {
 
       <div
         className="relative z-10 flex flex-col h-full"
-        style={{ padding: "clamp(12px, 2vw, 40px) clamp(16px, 3vw, 48px)" }}
+        style={{ padding: "40px 48px" }}
       >
         <motion.h2
           className="font-display font-bold text-white mb-2"
-          style={{ fontSize: "clamp(1.4rem, 2.5vw, 2.25rem)" }}
+          style={{ fontSize: "4.5rem" }}
           initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
         >
           Meet the <span className="text-garena-red">MAs</span>
@@ -210,7 +222,7 @@ export function Slide2_MAIntro() {
         {loading ? (
           <div className="flex-1 flex items-center justify-center text-white/40">Loading…</div>
         ) : (
-          <div className="flex-1 min-h-0 grid grid-cols-5 content-center pb-8" style={{ gap: "clamp(6px, 0.8vw, 14px)", alignContent: "center" }}>
+          <div className="flex-1 min-h-0 grid grid-cols-5 content-center pb-8" style={{ gap: "24px", alignContent: "center" }}>
             {profiles.map((profile, i) => {
               const photoUrl = getPhotoUrl(profile.photo_path);
               const isDraggingOver = editMode && dragOverIdx === i && dragIdx !== i;
@@ -234,8 +246,8 @@ export function Slide2_MAIntro() {
                     ${editMode ? "cursor-grab" : ""}
                   `}
                   style={{
-                    padding: "16px 12px 20px 12px",
-                    gap: "6px",
+                    padding: "28px 20px 32px 20px",
+                    gap: "12px",
                     transition: "border-color 0.25s ease, background-color 0.25s ease",
                   }}
                 >
@@ -247,9 +259,9 @@ export function Slide2_MAIntro() {
                   <div
                     className="rounded-full overflow-hidden flex-shrink-0 transition-transform duration-[250ms] ease-out group-hover:scale-[1.04]"
                     style={{
-                      width: "clamp(80px, 10vw, 140px)",
-                      height: "clamp(80px, 10vw, 140px)",
-                      boxShadow: "0 0 0 3px #E1251B, 0 0 14px 5px rgba(225, 37, 27, 0.4)",
+                      width: "190px",
+                      height: "190px",
+                      boxShadow: "0 0 0 3px #E1251B, 0 0 18px 7px rgba(225, 37, 27, 0.4)",
                     }}
                   >
                     <MAPhoto url={photoUrl} name={profile.name} />
@@ -257,10 +269,10 @@ export function Slide2_MAIntro() {
 
                   {/* Name + class year */}
                   <div className="mt-0.5">
-                    <p className="text-white font-display font-semibold leading-tight" style={{ fontSize: "clamp(0.75rem, 1.1vw, 1rem)" }}>
+                    <p className="text-white font-display font-semibold leading-tight" style={{ fontSize: "1.85rem" }}>
                       {profile.name}
                     </p>
-                    <p className="text-garena-red mt-0.5" style={{ fontSize: "clamp(0.65rem, 0.9vw, 0.85rem)" }}>
+                    <p className="text-garena-red mt-1" style={{ fontSize: "1.4rem" }}>
                       Class of {joinYear(profile.join_date)}
                     </p>
                   </div>
@@ -269,8 +281,8 @@ export function Slide2_MAIntro() {
                   <div
                     className="font-mono-tech leading-snug rounded-full"
                     style={{
-                      fontSize: "clamp(0.6rem, 0.8vw, 0.75rem)",
-                      padding: "3px clamp(8px, 1vw, 12px)",
+                      fontSize: "1.1rem",
+                      padding: "6px 18px",
                       background: "rgba(255,255,255,0.07)",
                       border: "1px solid rgba(255,255,255,0.15)",
                       color: "rgba(255,255,255,0.75)",

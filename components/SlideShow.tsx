@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAppStore } from "@/lib/store";
 import { SlideNav } from "@/components/ui/SlideNav";
@@ -12,6 +12,9 @@ import { VideoPlaceholderSlide } from "@/components/slides/Slide3_6_VideoPlaceho
 import { PresentationSlide } from "@/components/slides/Slide7_Presentation";
 import { Slide12_ThankYou } from "@/components/slides/Slide12_ThankYou";
 import { useAuth } from "@/lib/hooks/useAuth";
+
+const SLIDE_W = 1920;
+const SLIDE_H = 1080;
 
 // MA photo paths for presentation slides (matches seed data)
 const PRESENTATION_SLIDES = [
@@ -57,6 +60,17 @@ export function SlideShow() {
   const [loginOpen, setLoginOpen] = useState(false);
   const [direction, setDirection] = useState(1);
   const prevIndexRef = useRef(currentSlide);
+  const [scale, setScale] = useState(1);
+
+  const updateScale = useCallback(() => {
+    setScale(Math.min(window.innerWidth / SLIDE_W, window.innerHeight / SLIDE_H));
+  }, []);
+
+  useEffect(() => {
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    return () => window.removeEventListener("resize", updateScale);
+  }, [updateScale]);
 
   useEffect(() => {
     setDirection(currentSlide > prevIndexRef.current ? 1 : -1);
@@ -76,8 +90,8 @@ export function SlideShow() {
   const SlideComponent = SLIDES[currentSlide];
 
   return (
-    <div className="w-screen h-screen bg-[#0A0C14] overflow-hidden relative">
-      {/* Lock/Edit button */}
+    <div className="w-screen h-screen bg-[#0A0C14] overflow-hidden flex items-center justify-center">
+      {/* Lock/Edit button — fixed to viewport */}
       <button
         onClick={() => setLoginOpen(true)}
         title={editMode ? "Edit mode active" : "Admin login"}
@@ -94,21 +108,32 @@ export function SlideShow() {
         )}
       </button>
 
-      {/* Slides */}
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.div
-          key={currentSlide}
-          custom={direction}
-          variants={slideVariants}
-          initial="enter"
-          animate="center"
-          exit="exit"
-          transition={{ duration: 0.35, ease: "easeInOut" }}
-          className="absolute inset-0"
-        >
-          <SlideComponent />
-        </motion.div>
-      </AnimatePresence>
+      {/* Fixed 16:9 slide canvas — scales proportionally to fit any viewport */}
+      <div
+        style={{
+          width: SLIDE_W,
+          height: SLIDE_H,
+          transform: `scale(${scale})`,
+          transformOrigin: "center center",
+          position: "relative",
+          flexShrink: 0,
+        }}
+      >
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentSlide}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="absolute inset-0"
+          >
+            <SlideComponent />
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <SlideNav />
       <LoginModal open={loginOpen} onClose={() => setLoginOpen(false)} />

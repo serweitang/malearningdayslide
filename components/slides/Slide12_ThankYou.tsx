@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { AuroraBeams } from "@/components/ui/AuroraBeams";
 
 export function Slide12_ThankYou() {
   return (
@@ -29,6 +29,8 @@ export function Slide12_ThankYou() {
         }}
       />
 
+      <AuroraBeams />
+
       {/* Content */}
       <motion.div
         className="relative z-10 text-center flex flex-col items-center gap-6"
@@ -37,7 +39,8 @@ export function Slide12_ThankYou() {
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <motion.h1
-          className="font-display font-bold text-white text-7xl md:text-9xl tracking-tight"
+          className="font-display font-bold text-white tracking-tight"
+          style={{ fontSize: "11rem" }}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -46,32 +49,20 @@ export function Slide12_ThankYou() {
         </motion.h1>
 
         <motion.div
-          className="h-0.5 bg-gradient-to-r from-transparent via-garena-red to-transparent w-64"
+          className="h-0.5 bg-gradient-to-r from-transparent via-garena-red to-transparent w-96"
           initial={{ scaleX: 0 }} animate={{ scaleX: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         />
 
         <motion.p
-          className="text-white/40 font-body text-lg tracking-widest"
+          className="text-white/40 font-body tracking-widest"
+          style={{ fontSize: "1.75rem" }}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
           2026 Mid Year MA Learning Day · Garena
         </motion.p>
 
-        <motion.div
-          className="mt-4 bg-black rounded px-4 py-2"
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          <Image
-            src="/Horizontal_Asset-Black.png"
-            alt="Garena"
-            width={180}
-            height={50}
-            style={{ objectFit: "contain" }}
-          />
-        </motion.div>
       </motion.div>
     </div>
   );

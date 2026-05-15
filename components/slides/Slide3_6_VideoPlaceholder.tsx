@@ -74,19 +74,20 @@ export function VideoPlaceholderSlide({ slideNumber }: Props) {
       />
 
       <div className="relative z-10 flex flex-col h-full px-12 py-8">
-        <div className="flex items-center gap-3 mb-2">
-          <span className="font-mono-tech text-garena-red text-sm font-bold tracking-widest uppercase">
+        <div className="flex items-center gap-3 mb-3">
+          <span className="font-mono-tech text-garena-red font-bold tracking-widest uppercase" style={{ fontSize: "1.5rem" }}>
             MA AI-Video Introduction
           </span>
         </div>
         <motion.h2
-          className="font-display font-bold text-white text-3xl mb-6"
+          className="font-display font-bold text-white mb-6"
+          style={{ fontSize: "3.5rem" }}
           initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
         >
           <EditableField
             value={content?.title ?? "MA AI-Video Introduction"}
             onSave={(val) => updateContent({ title: val })}
-            className="font-display font-bold text-white text-3xl"
+            className="font-display font-bold text-white"
             placeholder="Slide title…"
           />
         </motion.h2>
