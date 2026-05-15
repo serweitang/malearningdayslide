@@ -26,7 +26,6 @@ function nextSrc(url: string): string | null {
 function PhotoBackground({ url, presenter }: { url: string | null; presenter: string }) {
   const [src, setSrc] = useState(url);
   const [failed, setFailed] = useState(false);
-  const isLocalPhoto = src?.startsWith("/ma-photos/") ?? false;
   const initials = presenter.split(" ").map((w) => w[0]).slice(0, 2).join("");
 
   if (!src || failed) {
@@ -48,7 +47,7 @@ function PhotoBackground({ url, presenter }: { url: string | null; presenter: st
       alt={presenter}
       fill
       quality={100}
-      unoptimized={isLocalPhoto}
+      unoptimized
       sizes="50vw"
       className="object-cover object-top"
       onError={() => {

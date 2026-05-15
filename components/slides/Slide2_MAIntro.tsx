@@ -36,7 +36,6 @@ function MAPhoto({ url, name }: { url: string | null; name: string }) {
   const [failed, setFailed] = useState(false);
   const isYanWei = name.toLowerCase().includes("yan wei");
   const isJoan = name.toLowerCase().includes("joan");
-  const isLocalPhoto = src?.startsWith("/ma-photos/") ?? false;
 
   if (!src || failed) return <AvatarPlaceholder name={name} />;
 
@@ -53,7 +52,7 @@ function MAPhoto({ url, name }: { url: string | null; name: string }) {
       width={160}
       height={160}
       quality={100}
-      unoptimized={isLocalPhoto}
+      unoptimized
       className={`w-full h-full object-cover ${isYanWei || isJoan ? "" : "object-top"}`}
       style={photoStyle}
       onError={() => {
