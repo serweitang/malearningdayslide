@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSlideContent } from "@/lib/hooks/useContent";
 import { useAppStore } from "@/lib/store";
@@ -22,17 +23,30 @@ function VideoBox({
   onUpload: (key: string, url: string) => void;
 }) {
   const editMode = useAppStore((s) => s.editMode);
+  const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState("");
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const key = `video_url_${index + 1}` as "video_url_1" | "video_url_2" | "video_url_3";
 
   async function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    setUploading(true);
+    setUploadError(null);
+    setProgress(`Uploading ${file.name}…`);
     const path = `${slideId}/video${index + 1}_${Date.now()}.${file.name.split(".").pop()}`;
-    const { error } = await supabase.storage.from("slide-videos").upload(path, file, { upsert: true });
-    if (!error) {
-      const { data } = supabase.storage.from("slide-videos").getPublicUrl(path);
-      onUpload(key, data.publicUrl);
+    const { error } = await supabase.storage.from("video-slides").upload(path, file, { upsert: true });
+    if (error) {
+      setUploadError(`Upload failed: ${error.message}`);
+      setUploading(false);
+      setProgress("");
+      return;
     }
+    setProgress("Saving…");
+    const { data } = supabase.storage.from("video-slides").getPublicUrl(path);
+    await onUpload(key, data.publicUrl);
+    setUploading(false);
+    setProgress("");
   }
 
   return (
@@ -40,13 +54,22 @@ function VideoBox({
       {url ? (
         <video src={url} controls className="w-full h-full object-contain" />
       ) : (
-        <div className="flex flex-col items-center gap-2 text-white/30">
+        <div className="flex flex-col items-center gap-3 text-white/30">
           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span className="text-sm">Video {index + 1}</span>
-          {editMode && (
+
+          {uploading && (
+            <span className="text-xs text-white/50 animate-pulse">{progress}</span>
+          )}
+
+          {uploadError && (
+            <span className="text-xs text-garena-red text-center max-w-xs px-2">{uploadError}</span>
+          )}
+
+          {editMode && !uploading && (
             <label className="mt-1 cursor-pointer text-garena-red text-xs underline">
               Upload Video
               <input type="file" accept="video/*" className="hidden" onChange={handleUpload} />
@@ -92,7 +115,7 @@ export function VideoPlaceholderSlide({ slideNumber }: Props) {
           />
         </motion.h2>
 
-        <div className="flex gap-4 flex-1 items-stretch">
+        <div className="flex gap-4 items-stretch" style={{ height: "680px" }}>
           <VideoBox
             url={content?.video_url_1 ?? null}
             index={0}
