@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useAppStore } from "@/lib/store";
 import { SlideNav } from "@/components/ui/SlideNav";
 import { LoginModal } from "@/components/ui/LoginModal";
-import { PlaceholderSlide } from "@/components/ui/PlaceholderSlide";
 import { Slide1_Title } from "@/components/slides/Slide1_Title";
 import { Slide2_MAIntro } from "@/components/slides/Slide2_MAIntro";
 import { VideoPlaceholderSlide } from "@/components/slides/Slide3_6_VideoPlaceholder";
@@ -44,7 +43,7 @@ const SLIDES: React.ComponentType[] = [
   () => <PresentationSlide {...PRESENTATION_SLIDES[2]} />,
   () => <GoogleSlidesEmbed embedUrl="https://docs.google.com/presentation/d/17NDmgGJGO9ks3gJb48BowA0uyq5pzySz/embed?rm=minimal" presenterName="Joan Chin" />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[3]} />,
-  () => <LaunchSlide url="https://yw-learning-day-2.run.ingarena.net/" presenterName="Yan Wei" />,
+  () => <LaunchSlide url="https://yw-learning-day-2.run.ingarena.net/" presenterName="Yan Wei" autoAdvanceSeconds={10} />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[4]} />,
   () => <LaunchSlide url="MITTY_URL_HERE" presenterName="Zhuang Yuan (Mitty)" />,
   Slide12_ThankYou,
