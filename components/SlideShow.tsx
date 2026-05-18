@@ -45,7 +45,7 @@ const SLIDES: React.ComponentType[] = [
   () => <PresentationSlide {...PRESENTATION_SLIDES[3]} />,
   () => <LaunchSlide url="https://yw-learning-day-2.run.ingarena.net/" presenterName="Yan Wei" autoAdvanceSeconds={10} />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[4]} />,
-  () => <LaunchSlide url="MITTY_URL_HERE" presenterName="Zhuang Yuan (Mitty)" />,
+  () => <LaunchSlide url="https://learning-day-mitty.run.ingarena.net/" presenterName="Zhuang Yuan (Mitty)" autoAdvanceSeconds={10} />,
   Slide12_ThankYou,
 ];
 

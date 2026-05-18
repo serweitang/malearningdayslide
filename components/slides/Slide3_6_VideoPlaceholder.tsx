@@ -52,7 +52,18 @@ function VideoBox({
   return (
     <div className="flex-1 h-full border-2 border-dashed border-white/20 rounded-xl overflow-hidden relative flex items-center justify-center bg-white/5 hover:border-white/30 transition">
       {url ? (
-        <video src={url} controls className="w-full h-full object-contain" />
+        <>
+          <video src={url} controls className="w-full h-full object-contain" />
+          {editMode && !uploading && (
+            <label className="absolute top-2 right-2 cursor-pointer bg-black/70 hover:bg-garena-red text-white text-xs font-mono-tech px-3 py-1 rounded transition">
+              Replace
+              <input type="file" accept="video/*" className="hidden" onChange={handleUpload} />
+            </label>
+          )}
+          {uploading && (
+            <span className="absolute top-2 right-2 bg-black/70 text-white text-xs font-mono-tech px-3 py-1 rounded animate-pulse">{progress}</span>
+          )}
+        </>
       ) : (
         <div className="flex flex-col items-center gap-3 text-white/30">
           <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">

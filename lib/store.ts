@@ -1,10 +1,9 @@
 import { create } from "zustand";
 import { AppState } from "@/types";
 
-// Total real slides: 1(title) + 1(MAs) + 3(video) + 5(presentations, each with a placeholder after some) + 1(thankyou)
-// Slides array: 1,2,3,4,5, 7,7p, 8,8p, 9, 10,10p, 11,11p, 12
-// = 15 slides total
-const TOTAL_SLIDES = 15;
+// 0=Title, 1=MAIntro, 2-4=Videos, 5=Joyce, 6=Joyce slides, 7=Iris, 8=Iris slides,
+// 9=Joan, 10=Joan slides, 11=YanWei, 12=YanWei launch, 13=Mitty, 14=Mitty launch, 15=ThankYou
+const TOTAL_SLIDES = 16;
 
 export const useAppStore = create<AppState>((set) => ({
   currentSlide: 0,
