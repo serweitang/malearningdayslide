@@ -11,6 +11,8 @@ import { Slide2_MAIntro } from "@/components/slides/Slide2_MAIntro";
 import { VideoPlaceholderSlide } from "@/components/slides/Slide3_6_VideoPlaceholder";
 import { PresentationSlide } from "@/components/slides/Slide7_Presentation";
 import { Slide12_ThankYou } from "@/components/slides/Slide12_ThankYou";
+import { GoogleSlidesEmbed } from "@/components/slides/GoogleSlidesEmbed";
+import { LaunchSlide } from "@/components/slides/LaunchSlide";
 import { useAuth } from "@/lib/hooks/useAuth";
 
 const SLIDE_W = 1920;
@@ -27,8 +29,8 @@ const PRESENTATION_SLIDES = [
 
 // Slides array — each entry is a component to render
 // Index: 0=Title, 1=MA Intro, 2=Video3, 3=Video4, 4=Video5,
-//        5=Pres7, 6=Placeholder, 7=Pres8, 8=Placeholder, 9=Pres9,
-//        10=Pres10, 11=Placeholder, 12=Pres11, 13=Placeholder, 14=ThankYou
+//        5=Joyce intro, 6=Joyce slides, 7=Iris intro, 8=Iris slides, 9=Joan intro,
+//        10=Joan slides, 11=YanWei intro, 12=Placeholder, 13=Mitty intro, 14=Placeholder, 15=ThankYou
 const SLIDES: React.ComponentType[] = [
   Slide1_Title,
   Slide2_MAIntro,
@@ -36,14 +38,15 @@ const SLIDES: React.ComponentType[] = [
   () => <VideoPlaceholderSlide slideNumber={4} />,
   () => <VideoPlaceholderSlide slideNumber={5} />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[0]} />,
-  PlaceholderSlide,
+  () => <GoogleSlidesEmbed embedUrl="https://docs.google.com/presentation/d/1iIVJrB7-s7V_hxN6lG0QVXpwXtnd0SgBxxeaBK1XT24/embed?rm=minimal" presenterName="Joyce Jin Yingjie" />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[1]} />,
-  PlaceholderSlide,
+  () => <GoogleSlidesEmbed embedUrl="https://docs.google.com/presentation/d/1J0DyBWnIR4T_wjSEh0er3zxc-LOVQTWv71xlwzfsgLU/embed?rm=minimal" presenterName="Iris Xia Zhiyu" />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[2]} />,
+  () => <GoogleSlidesEmbed embedUrl="https://docs.google.com/presentation/d/17NDmgGJGO9ks3gJb48BowA0uyq5pzySz/embed?rm=minimal" presenterName="Joan Chin" />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[3]} />,
-  PlaceholderSlide,
+  () => <LaunchSlide url="https://yw-learning-day-2.run.ingarena.net/" presenterName="Yan Wei" />,
   () => <PresentationSlide {...PRESENTATION_SLIDES[4]} />,
-  PlaceholderSlide,
+  () => <LaunchSlide url="MITTY_URL_HERE" presenterName="Zhuang Yuan (Mitty)" />,
   Slide12_ThankYou,
 ];
 
